@@ -12,7 +12,6 @@ use VK\Client\VKApiClient;
 class ApiClientMiddleware implements MiddlewareInterface
 {
     private ContainerInterface $container;
-    private VKApiClient $apiClient;
 
     public function __construct(ContainerInterface $container)
     {
@@ -23,14 +22,14 @@ class ApiClientMiddleware implements MiddlewareInterface
     {
         // Версия API
         $apiVersion = $this->container->get('config')['api']['api_version'];
-        $this->apiClient = new VKApiClient($apiVersion);
-        
+        $apiClient = new VKApiClient($apiVersion);
+
         $accessToken = $this->container->get('config')['api']['access_token'];
         $request = $request->withAttribute('api.access_token', $accessToken);
 
         $groupId = $this->container->get('config')['api']['group_id'];
         $request = $request->withAttribute('api.group_id', $groupId);
 
-        return $handler->handle($request->withAttribute('api.client', $this->apiClient));
+        return $handler->handle($request->withAttribute('api.client', $apiClient));
     }
 }

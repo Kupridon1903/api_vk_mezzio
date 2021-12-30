@@ -34,13 +34,6 @@ return function (Application $app, MiddlewareFactory $factory, ContainerInterfac
     $app->pipe(UrlHelperMiddleware::class);
     $app->pipe(BodyParamsMiddleware::class);
 
-    // Add more middleware here that needs to introspect the routing results; this
-    // might include:
-    //
-    // - route-based authentication
-    // - route-based validation
-    // - etc.
-
     // Register the dispatch middleware in the middleware pipeline
     $app->pipe(DispatchMiddleware::class);
 

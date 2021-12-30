@@ -1,0 +1,65 @@
+version: '3.5'
+
+x-backend-common:
+  &backend-common
+  image: api-vk-mezzio-backend:latest
+  restart: always
+  tty: true
+  working_dir: /var/www/api-vk-mezzio
+  env_file:
+    - .env
+  networks:
+    - api-vk-mezzio-network
+
+#Docker Networks
+networks:
+  api-vk-mezzio-network:
+    driver: bridge
+
+#Docker Volumes
+volumes:
+  api-vk-mezzioMysqlData:
+    driver: local
+  api-vk-mezzioMysqlFiles:
+    driver: local
+
+# приближенный к продакшену конфиг
+services:
+  # PHP fpm
+  api-vk-mezzio-backend:
+    <<: *backend-common
+    container_name: api-vk-mezzio-backend
+
+  # Nginx Service
+  api-vk-mezzio-front:
+    image: nginx:alpine
+    container_name: api-vk-mezzio-front
+    restart: always
+    tty: true
+    environment:
+      - "api-vk-mezzio_UPSTREAM=api-vk-mezzio-backend:9000"
+    volumes:
+      - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
+      - ./docker/nginx/templates/:/etc/nginx/templates/
+      - ./public/:/var/www/api-vk-mezzio/public/
+    networks:
+      - api-vk-mezzio-network
+    ports:
+      - "80:80"
+      - "443:443"
+
+  # MySQL Service
+  api-vk-mezzio-db:
+    image: library/mysql:8.0
+    container_name: api-vk-mezzio-db
+    restart: always
+    tty: true
+    ports:
+      - "33060:3306"
+    env_file:
+      - .env
+    networks:
+      - api-vk-mezzio-network
+    volumes:
+      - api-vk-mezzioMysqlData:/var/lib/mysql:rw
+      - api-vk-mezzioMysqlFiles:/var/lib/mysql-files:rw

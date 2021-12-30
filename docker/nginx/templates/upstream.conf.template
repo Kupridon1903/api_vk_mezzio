@@ -1,0 +1,3 @@
+upstream ofd_upstream {
+    server $OFD_UPSTREAM;
+}

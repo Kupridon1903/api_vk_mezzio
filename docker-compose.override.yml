@@ -1,0 +1,11 @@
+version: '3.5'
+
+# конфиг для разработки
+services:
+  api-vk-mezzio-backend:
+    volumes:
+      - .:/var/www/api-vk-mezzio
+
+  api-vk-mezzio-front:
+    volumes:
+      - .:/var/www/api-vk-mezzio
