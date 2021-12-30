@@ -14,14 +14,17 @@ class ApiClientMiddleware implements MiddlewareInterface
     private ContainerInterface $container;
     private VKApiClient $apiClient;
 
-    public function __construct(ContainerInterface $container, VKApiClient $apiClient)
+    public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
-        $this->apiClient = $apiClient;
     }
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
+        // Версия API
+        $apiVersion = $this->container->get('config')['api']['api_version'];
+        $this->apiClient = new VKApiClient($apiVersion);
+        
         $accessToken = $this->container->get('config')['api']['access_token'];
         $request = $request->withAttribute('api.access_token', $accessToken);
 
