@@ -19,7 +19,7 @@ class ConfigProvider
     {
         return [
             'delegators' => [
-//                Handler\VkApiHandler::class => [ApiClientDelegator::class]
+                Handler\VkApiHandler::class => [ApiClientDelegator::class]
             ],
         ];
     }

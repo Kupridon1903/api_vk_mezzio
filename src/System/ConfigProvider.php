@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace System;
 
 use Mezzio\ProblemDetails\ProblemDetailsMiddleware;
-use System\Initializer\EventSubscriberInitializer;
 use System\Response\ProblemDetailsMiddlewareFactory;
 
 class ConfigProvider
@@ -26,9 +25,6 @@ class ConfigProvider
             ],
             'factories'    => [
                 ProblemDetailsMiddleware::class => ProblemDetailsMiddlewareFactory::class,
-            ],
-            'initializers' => [
-                EventSubscriberInitializer::class,
             ],
         ];
     }

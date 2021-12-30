@@ -22,13 +22,14 @@ class VkApiHandler implements RequestHandlerInterface
         $accessToken = $request->getAttribute('api.access_token');
         $groupId = $request->getAttribute('api.group_id');
 
-//        $response = $apiClient->groups()->isMember($accessToken, [
-//            'group_id' => $groupId,
-//            'user_id' => 139571177
-//        ]);
+        $response = $apiClient->groups()->isMember($accessToken, [
+            'group_id' => $groupId,
+            'user_id' => 139571177,
+            'extended' => 1
+        ]);
 
         return new JsonResponse([
-            'response' => 'ok'
+            'response' => $response
         ]);
     }
 }
