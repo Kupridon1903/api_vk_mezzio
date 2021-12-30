@@ -2,15 +2,16 @@
 
 declare(strict_types=1);
 
-namespace App\Handler;
+namespace Api\Factory;
 
+use Api\Handler\VkApiHandler;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
-class HomePageHandlerFactory
+class VkApiHandlerFactory
 {
     public function __invoke(ContainerInterface $container): RequestHandlerInterface
     {
-        return new HomePageHandler();
+        return new HomePageHandler($container);
     }
 }

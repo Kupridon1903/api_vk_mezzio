@@ -1,0 +1,33 @@
+<?php
+
+namespace Api\Middleware;
+
+use Psr\Container\ContainerInterface;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\MiddlewareInterface;
+use Psr\Http\Server\RequestHandlerInterface;
+use VK\Client\VKApiClient;
+
+class ApiClientMiddleware implements MiddlewareInterface
+{
+    private ContainerInterface $container;
+    private VKApiClient $apiClient;
+
+    public function __construct(ContainerInterface $container, VKApiClient $apiClient)
+    {
+        $this->container = $container;
+        $this->apiClient = $apiClient;
+    }
+
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
+    {
+        $accessToken = $this->container->get('config')['api']['access_token'];
+        $request = $request->withAttribute('api.access_token', $accessToken);
+
+        $groupId = $this->container->get('config')['api']['group_id'];
+        $request = $request->withAttribute('api.group_id', $groupId);
+
+        return $handler->handle($request->withAttribute('api.client', $this->apiClient));
+    }
+}

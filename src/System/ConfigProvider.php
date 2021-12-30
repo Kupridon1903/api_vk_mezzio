@@ -21,6 +21,8 @@ class ConfigProvider
     {
         return [
             'invokables'   => [
+                Handler\PingHandler::class => Handler\PingHandler::class,
+                Handler\HomePageHandler::class => Handler\HomePageHandler::class,
             ],
             'factories'    => [
                 ProblemDetailsMiddleware::class => ProblemDetailsMiddlewareFactory::class,

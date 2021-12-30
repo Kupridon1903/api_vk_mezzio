@@ -2,7 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App;
+namespace Api;
+
+use Api\Delegator\ApiClientDelegator;
 
 class ConfigProvider
 {
@@ -16,11 +18,8 @@ class ConfigProvider
     public function getDependencies(): array
     {
         return [
-            'invokables' => [
-                Handler\PingHandler::class => Handler\PingHandler::class,
-            ],
-            'factories'  => [
-                Handler\HomePageHandler::class => Handler\HomePageHandlerFactory::class,
+            'delegators' => [
+//                Handler\VkApiHandler::class => [ApiClientDelegator::class]
             ],
         ];
     }

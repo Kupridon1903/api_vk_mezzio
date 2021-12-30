@@ -2,19 +2,23 @@
 
 declare(strict_types=1);
 
-namespace App\Handler;
+namespace System\Handler;
 
+use GuzzleHttp\Client;
+use GuzzleHttp\RequestOptions;
 use Laminas\Diactoros\Response\JsonResponse;
+use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
+use VK\Client\VKApiClient;
 
-use function time;
-
-class PingHandler implements RequestHandlerInterface
+class HomePageHandler implements RequestHandlerInterface
 {
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        return new JsonResponse(['ack' => time()]);
+        return new JsonResponse([
+            'response' => 'ok'
+        ]);
     }
 }
